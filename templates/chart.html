@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>CHART</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script
+src="https://www.gstatic.com/charts/loader.js">
+</script>
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	
+	</head>
+	<body>
+	<div id="myChart" style="max-width:1500px; height:800px"></div>
+	
+	<script>
+	google.charts.load('current', {'packages': ['bar']});
+	  google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+           arry = [[ {label: 'strike', id: 'strike', type:'number'},  {label: 'PE', id: 'PE', type: 'number'},{label: 'CE', id: 'CE', type: 'number'}, {'role':'style'} ]]
+         chart_all = {{ expiry|tojson }}
+         chart = chart_all.MONTHLY;
+       index = 0
+        while (index < chart.length) {
+       arry.push([chart[index][0],chart[index][2],{v:-chart[index][1],f:chart[index][1]},""]);
+    index++;}
+         console.log(arry)
+var data = google.visualization.arrayToDataTable(arry,false);
+	   
+ var options = google.charts.Bar.convertOptions({
+            isStacked: true,
+			 bars: 'horizontal',
+            series: {
+		
+                2: { axis: 'oi',targetAxisIndex: 1 },
+                3	: { axis: 'oichange',targetAxisIndex: 1 }
+            },
+			axes: {
+			y: {
+    0: {side: 'right'}
+   },
+   x: {
+   oi: { side: 'top'},
+   oichange: {}
+   }
+  }
+            
+        });
+
+var chart = new google.charts.Bar(document.getElementById('myChart'));
+chart.draw(data, options);
+
+}
+
+
+	
+	</script>
+<script  src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+  <script  src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		<script>
+	//window.onload = WebSocketTest;
+	</script>
+	</body>
+</html>
+

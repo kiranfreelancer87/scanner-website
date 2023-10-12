@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>CHART</title>
+    <meta http-equiv="refresh" content="30">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script
+src="https://www.gstatic.com/charts/loader.js">
+</script>
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+	<link rel="stylesheet" href="css/style.css">
+	<style>
+button.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 90%;
+  padding: 5px;
+  font-size: 25px;
+}
+</style>
+	</head>
+	<body>
+<button class="tablink" onclick="openPage('Home', this, 'red')">Home</button>
+<button class="tablink" onclick="openPage('News', this, 'green')" id="defaultOpen">News</button>
+<button type="button" id="cmp" class="sticky btn btn-success" ></button>
+<div class="chart-container" style="position: relative; height:100px; width:1200px">
+<canvas id="myChart"></canvas>
+<canvas id="myChart2"></canvas>
+	</div>
+	<script>
+      var labels_list = []
+      var pe_list = []
+      var ce_list = []
+      var pe_change = []
+      var ce_change = []
+       chart_all = {{ expiry|tojson }}
+        chart = chart_all.MONTHLY;
+        cmp = chart_all.CMP;
+        document.getElementById('cmp').textContent= cmp;
+       index = 0
+        while (index < chart.length) {
+        labels_list.push(chart[index][0])
+        pe_list.push(chart[index][2])
+        ce_list.push(chart[index][1])
+        pe_change.push(chart[index][4])
+        ce_change.push(chart[index][3])
+    index++;}
+	console.log(cmp);
+          console.log(labels_list);
+          console.log(pe_list);
+ 	console.log(ce_list);
+
+ new Chart("myChart2", {
+        responsive: true,
+        type: 'bar',
+         data: {
+         labels: labels_list,
+    datasets: [
+//{
+  //    label: "CURRENT PRICE",
+  //    type :"bar",
+   //   backgroundColor:"pink",
+    //  stack:"second",
+     // data:  [ {x: 3000000, y: cmp},
+     // {x: 3000000, y: cmp}
+   // ],
+  //  maxBarThickness: 2,
+  // },
+
+ {
+      label: "PE - OI CHANGE",
+      type: "bar",
+      backgroundColor: "blue",
+      data: pe_change,
+
+  },{
+      label: "CE - OI CHANGE",
+      type: "bar",
+      backgroundColor: "orange",
+      data: ce_change,
+    }]
+},
+
+  options: {
+    scales: {
+      xAxes: [{
+        //stacked: true,
+        ticks: {
+          beginAtZero: true,
+          maxRotation: 0,
+          minRotation: 0
+        }
+      }],
+      yAxes: [{
+         position: 'right',
+      }]
+    },
+  }
+});
+
+/////////// NEXT
+       // new Chart(document.getElementById("myChart").getContext('2d'), {
+	new Chart("myChart", { 
+	responsive: true,
+	type: 'bar',
+ 	 data: {
+   	 labels: labels_list,
+    datasets: [{
+      label: "PE - OI",
+      type: "bar",
+     // stack: "Base",
+      backgroundColor: "green",
+      data: pe_list,
+    }, {
+      label: "CE - OI",
+      type: "bar",
+     // stack: "Base",
+      backgroundColor: "red",
+      data: ce_list,
+   
+  },
+/////////////////////////////////////
+ //{
+     // label: "PE - OI CHANGE",
+     // type: "bar",
+    //  backgroundColor: "blue",
+   //   data: pe_change,
+
+ // },{
+     // label: "CE - OI CHANGE",
+     // type: "bar",
+    //  backgroundColor: "orange",
+  //    data: ce_change,
+//    }
+///]
+
+
+
+
+///////////////////////////////////
+//{ 
+  //    label: "CURRENT PRICE",
+    //  type :"horizontalBar",
+     // backgroundColor:"pink",
+     // stack:"second",
+     // data:  [ {x: 3000000, y: cmp},
+     // {x: 3000000, y: cmp}
+   // ],
+  //  maxBarThickness: 2,
+  // },
+    ]
+},
+
+  options: {
+    scales: {
+      xAxes: [{
+        //stacked: true,
+        //stacked: true,
+        ticks: {
+          beginAtZero: true,
+          maxRotation: 0,
+          minRotation: 0
+        }
+      }],
+      yAxes: [{
+        //stacked: true,
+         position: 'right',
+      }]
+    },
+  }
+}); 
+
+
+
+	
+	</script>
+<script  src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+  <script  src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+	</body>
+</html>
+

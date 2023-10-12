@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+        <title>Firewall Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet"  href="{{ url_for('static', filename='css/firewall.css') }}">
+
+        <script>
+	var username = "none"
+        var password = "none"
+ 
+         function monitorOff(data) {
+        resp2 = auth();
+        if (resp2 == "1") {
+        console.log(data)
+         fetch('https://brisk360.in/monitoroff?iid='+data)
+         .then(response => response.text())
+         .then(data => console.log(data))
+
+         document.getElementById(data).disabled = true;
+          document.getElementById(data).textContent = "OFF";
+        }
+        else { alert("Wrong Password: "+resp2); }
+  }
+
+        function sendReq(){
+        if (username == "none") { 
+	username=prompt('Username:',' ');
+         password=prompt('Password:',' ');
+	}
+        console.log(username,password)
+	var toto = $('#monitorForm').serializeObject();
+	console.log(JSON.stringify(toto))
+	
+        var test = $('#monitorForm').serializeArray();
+        console.log(test);
+
+        var tto = JSON.stringify(test.slice(0,5))
+	console.log(tto)
+
+        console.log(username,password)
+         var fwlist = test.filter(flist); 
+         //var arrLen = fwlist.length
+	 //console.log(fwlist)
+         //addCode(test,fwlist)
+	
+	for (let i = 0; i < fwlist.length; i++) {
+	  addCode(test,fwlist[i]['value']);
+	}
+
+         var queryString =  $('#monitorForm').serialize();
+         console.log(queryString)
+        fetch('https://remote-vpn.com/command?'+queryString+"&unm="+username+"&upw="+password)
+        .then(response => response.json())
+        .then(data => addCode(data))
+
+
+        return false;
+}
+	function flist(value, index, array) {
+         if (value['name'] == "firename"){
+	 return (value['value'])
+}
+}
+
+          function addCode(data,name) {
+            // console.log(data[0])
+            document.getElementById("tb").innerHTML +=
+
+              `
+                                                    <tr>
+                                                      <td>`+data[0]['value']+`</td>
+							 <td>`+data[1]['value']+`</td>
+							 <td>`+data[2]['value']+`</td>
+							 <td>`+data[3]['value']+`</td>
+							 <td>`+data[4]['value']+`</td>
+							 <td>`+data[5]['value']+`</td>
+							 <td>`+name+`</td>
+                                                          <td>PENDING</td>
+                                                      <td><button id=`+data['uid']+` onClick= "monitorOff(this.id)" class="btn btn-danger">Refresh</button> </td>
+
+                                                    </tr>`
+        }
+        </script>
+        </head>
+        <body>
+
+        <section class="ftco-section">
+                <div class="container">
+
+		
+                        <div class="row" >
+                                <div class="col-md-12">
+                                        <div class="table-wrap">
+                                        <div class="table card shadow p-3 mb-5 bg-black rounded">
+                                         <form action = "#" onSubmit="return sendReq()"  id = "monitorForm" name ="monitorform">
+                                                <table  style="height: 250px;" class="table-responsive table-striped table-bordered">
+                                                  <thead>
+                                                    <tr>
+								<th><b>Model</b></th>
+								 <th><b>ITSR Number</b></th>
+                                                          <th><b>Source IP</b></th>
+                                                      <th><b>Dest IP</b></th>
+                                                      <th><b>Port</b></th>
+                                                      <th><b>Protocol</b></th>
+                                                      <th><b>Firewall Name</b></th>
+                                                      <th><b>Actions</b></th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody >
+                                                    <tr>
+		
+							 <td style="width:70px;">
+                                                          <select title="manu" name="manuId" id="manuId" required>
+                                                                        <option value="CISCO"> CISCO </option>
+                                                                         <option value="JUNIPER"> JUNIPER </option>
+
+                                                                        </select></td>
+							 <td style="width: 70px;">
+                                                        <input style="width: 135px;" title="itsrnum" name="itsrNum" type="text" id="itsrNum" size = "20"  style="width: 10" required>
+                                                        </td>
+
+
+							<td style="width: 70px;">
+							<input style="width: 135px;" title="srcIP" type="text" name="srcIp" id="srcIP" size = "20"   style="width: 10" required>
+							</td>
+						<td style="width: 70px;">
+                                                        <input style="width: 135px;" title="dstIP" type="text" id="dstIP" name="dstIp" size = "20"  style="width: 10" required>
+                                                        </td>
+						 <td style="width: 70px;">
+                                                        <input style="width: 135px;" title="portnum" type="text" id="portNum" name="portNum" size = "20"  style="width: 10" required>
+                                                        </td>
+                                                      <td style="width:70px;">
+                                                          <select title="protocol"  name="protoId" id="protocolId" required>
+                                                                        <option value="TCP"> TCP </option>
+ 									 <option value="UDP"> UDP </option>
+									 <option value="ICMP"> ICMP </option>
+
+                                                                        </select></td>
+
+                                                          <td style="width: 100px;">
+							<select style="width: 200px; overflow-y: overlay;" name="fireName" id="firewallName" multiple multiselect-search="true" multiselect-select-all="true" required>
+                                                                         <option value="BLR-LON-LAB-IT-FW">BLR-LON-LAB-IT-FW</option>
+                                                                         <option value="Firewall-2">Firewall-2</option>
+                                                                        <option value="Firewall-3">Firewall-3</option>
+                                                                         <option value="Firewall-4">Firewall-4</option>
+
+                                                                                </select></td>
+
+
+ <td><button  type="submit"  form="monitorForm" value="submit" class="btn btn-primary">ADD</button></td>
+
+                                                    </tr>
+
+
+
+
+
+
+
+
+                                                  </tbody>
+                                                </table>
+                                                        </form>
+                                        </div>
+                                </div>
+                        </div>
+			</div></div>
+</div>
+               <div class="container">
+
+                        <div class="row">
+                                <div class="col-md-12">
+                                        <div class="table-wrap">
+                                        <div class="table-responsive card shadow p-3 mb-5 bg-black rounded">
+                                                <table class="table table-striped table-bordered">
+                                                  <thead>
+                                                    <tr>
+							 <th><b>Model</b></th>
+                                                      <th><b>ITSR Number</b></th>
+                                                       <th><b>Source IP</b></th>
+                                                         <th><b>Dest IP</b></th>
+                                                        <th><b>Port</b></th>
+                                                          <th><b>Protocol</b></th>
+                                                      <th><b>Firewall Name</b></th>
+                                                      <th><b>Status</b></th>
+
+						 </tr>
+                                                  </thead>
+                                                  <tbody id = "tb">
+
+                                                  </tbody>
+                                                </table>
+                                        </div>
+                                </div>
+                        </div>
+                        <div>
+                </div>
+        </section>
+
+<script  src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script>
+(function($,undefined){
+  '$:nomunge'; // Used by YUI compressor.
+  
+  $.fn.serializeObject = function(){
+    var obj = {};
+    
+    $.each( this.serializeArray(), function(i,o){
+      var n = o.name,
+        v = o.value;
+        
+        obj[n] = obj[n] === undefined ? v
+          : $.isArray( obj[n] ) ? obj[n].concat( v )
+          : [ obj[n], v ];
+    });
+    
+    return obj;
+  };
+  
+})(jQuery);
+</script>
+  <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+  <script  src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/multiselect-dropdown.js') }}" ></script>
+        </body>
+</html>
+
+

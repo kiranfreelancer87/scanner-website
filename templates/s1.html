@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+        <title>Table 09</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+        </head>
+        <body>
+        <section class="ftco-section">
+                <div class="container">
+                        <div class="row justify-content-center">
+                                <div class="col-md-6 text-center mb-5">
+                                        <h2 class="heading-section" id = "status"></h2>
+                                </div>
+                        </div>
+
+                        <div class="row">
+                                <div class="col-md-12">
+                                        <div class="table-wrap">
+                                        <div class="table-responsive card shadow p-3 mb-5 bg-black rounded">
+					<h3>FIRST</h3>
+                                                <table class="table table-striped table-bordered">
+                                                  <thead>
+                                                    <tr>
+                                                      <th><b>Name</b></th>
+ 							 <th><b>Level</b></th>
+ 							 <th><b>Change %</b></th>
+							<th><b>  </b></th>
+									
+                                                    </tr>
+							  </thead>
+                                                  <tbody id = "tb">
+							{% for stock in five %}
+    								<tr bgcolor = '{{ stock["color"] }}'>
+					        <td>{{ stock['name'] }}</td>
+                                                   <td>{{ stock['strike'] }}</td>
+                                                 <td>{{ stock['diff'] }}</td>
+						 {% if stock['side'] == 'pe' %}
+							         <td>&#8593;</td>
+
+                                                                {% else %}
+								  <td>&#8595;</td>
+                                                         {% endif %}
+
+     						 </tr>
+						{% endfor %}					
+                                                  </tbody>
+                                                </table>
+					
+					 <h3>SECOND</h3>
+                                                <table class="table table-striped table-bordered">
+                                                  <thead>
+                                                    <tr>
+                                                      <th><b>Name</b></th>
+                                                         <th><b>Level</b></th>
+                                                         <th><b>Change %</b></th>
+							<th><b>  </b></th>
+
+                                                    </tr>
+                                                          </thead>
+                                                  <tbody id = "tb">
+                                                        {% for stock in ten %}
+                                                                <tr bgcolor = '{{ stock["color"] }}'>
+                                                <td>{{ stock['name'] }}</td>
+                                                   <td>{{ stock['strike'] }}</td>
+                                                 <td>{{ stock['diff'] }}</td>
+							  {% if stock['side'] == 'pe' %}
+                                                                 <td>&#8593;</td>
+
+                                                                {% else %}
+                                                                  <td>&#8595;</td>
+                                                         {% endif %}		
+
+                                                 </tr>
+                                                {% endfor %}
+                                                  </tbody>
+                                                </table>
+		
+		
+					 <h3>THIRD</h3>
+                                                <table class="table table-striped table-bordered">
+                                                  <thead>
+                                                    <tr>
+                                                      <th><b>Name</b></th>
+                                                         <th><b>Level</b></th>
+                                                         <th><b>Change %</b></th>
+							 <th><b>  </b></th>
+
+                                                    </tr>
+                                                          </thead>
+                                                  <tbody id = "tb">
+                                                        {% for stock in fifteen %}
+                                                                <tr bgcolor = '{{ stock["color"] }}'>
+                                                <td>{{ stock['name'] }}</td>
+                                                   <td>{{ stock['strike'] }}</td>
+                                                 <td>{{ stock['diff'] }}</td>
+						 {% if stock['side'] == 'pe' %}
+                                                                 <td>&#8593;</td>
+
+                                                                {% else %}
+                                                                  <td>&#8595;</td>
+                                                         {% endif %}
+
+                                                 </tr>
+                                                {% endfor %}
+                                                  </tbody>
+                                                </table>
+
+
+                                        </div>
+                                </div>
+                        </div>
+                        <div>
+                </div>
+
+        </section>
+
+        <script  src="{{ url_for('static', filename='assets/js/jquery-2.1.0.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/popper.js') }}"></script>
+  <script  src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+        </body>
+</html>
